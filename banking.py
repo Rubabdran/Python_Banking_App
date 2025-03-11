@@ -1,11 +1,10 @@
 import csv
 import os 
 
-
-#overdraft 
-#build history class 
+#-----to do----#
+#reactivate the account when balance>=0
 #transfer function and main  
-
+#build history class 
 #------------------------ CSV ----------------------#
 
 def initialize_bank():
@@ -53,9 +52,10 @@ class bank :
             next(reader)  
             for row in reader:
                 if row[0] == account_id and row[3] == password:
+                    #trying reactivate account without add colounm in csv and separate function 
+                    # if int(row['balance_checking']) < 0 or  int(row['balance_savings'] ) < 0:
+                    #     print ("please withdraw enough money to reactivate your account ")
                     print("welcome !")
-                    return row   
-            print("Invalid login.")
                     
     def logout(self):
         print("Logged out")
@@ -102,12 +102,19 @@ class savingAccount :
          for row in reader:
             if row['account_id'] == self.account_id:
                 self.balance_savings = float(row['balance_savings'])
+                
                 if self.balance_savings >= amount:
                     self.balance_savings -= amount
                     row['balance_savings'] = str(self.balance_savings)
-                else:
-                    print("can't withdrawal")
-                    return
+                elif self.balance_savings < 0 and amount > 100:
+                    print("Can't withdraw more than $100 when account balance is negative.") 
+                elif self.balance_savings >= amount and amount > 100:
+                    print("Can't withdraw more than $100 in one transaction.")    
+                else:#overdraft
+                    if (self.balance_savings - amount) < 0 and (self.balance_savings - amount - 35) > -100:
+                        self.balance_savings -= amount
+                        row['balance_savings'] = str(self.balance_savings)
+              
             rows.append(row)
         with open('bank.csv', 'w', newline='') as file:
          writer = csv.DictWriter(file, fieldnames=self.fieldnames)
@@ -150,15 +157,21 @@ class checkingAccount :
                 if self.balance_checking >= amount:
                     self.balance_checking -= amount
                     row['balance_checking'] = str(self.balance_checking)
-                else:
-                    print("can't withdrawal")
-                    return
+                elif self.balance_checking < 0 and amount > 100:
+                    print("Can't withdraw more than $100 when account balance is negative.") 
+                elif self.balance_checking >= amount and amount > 100:
+                    print("Can't withdraw more than $100 in one transaction.")    
+                else:#overdraft
+                    if (self.balance_checking - amount) < 0 and (self.balance_checking - amount - 35) > -100:
+                        self.balance_checking -= amount
+                        row['balance_checking'] = str(self.balance_checking)
+              
             rows.append(row)
         with open('bank.csv', 'w', newline='') as file:
          writer = csv.DictWriter(file, fieldnames=self.fieldnames)
          writer.writeheader()
          writer.writerows(rows)
-    
+         
     def transfer(self, amount, to_this_account):
         pass
     
