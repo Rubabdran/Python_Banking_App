@@ -94,12 +94,7 @@ class savingAccount :
     
     def transfer(self, amount, to_this_account):
         pass
-        # if self.balance_savings >= amount:
-        #    self.balance_savings -= amount
-        #    to_this_account.deposit(amount)
-        # else:
-        #     return "can't transfer"
-  
+
 # CHECKING CLASS CONTAIN DEPOSIT, WITHDRAW, TRANSFER
 class checkingAccount :
     def __init__(self, account_id, first_name, last_name, password,account_type, balance_checking=0):
@@ -121,12 +116,7 @@ class checkingAccount :
     
     def transfer(self, amount, to_this_account):
         pass
-        # if self.balance_checking >= amount:
-        #    self.balance_checking -= amount
-        #    to_this_account.deposit(amount)
-        # else:
-        #     return "can't transfer"
-
+    
 #BONUS 
 class history :
     pass # not yet
