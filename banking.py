@@ -75,44 +75,89 @@ class bank :
 
 # SAVING CLASS CONTAIN DEPOSIT, WITHDRAW, TRANSFER
 class savingAccount :
-    def __init__(self, account_id, first_name, last_name, password,account_type, balance_savings=0):
-        self.account_id = account_id
-        self.first_name = first_name
-        self.last_name = last_name
-        self.password = password
-        self.account_type=account_type
-        self.balance_savings = float(balance_savings)
+    def __init__(self):
+         self.fieldnames = ['account_id', 'first_name', 'last_name', 'password','account_type', 'balance_checking', 'balance_savings']
     
-    def deposit(self, amount):
-        self.balance_savings += amount
+    def deposit(self, amount ,account_id ):
+        self.account_id=account_id
+        rows = []
+        with open('bank.csv', 'r') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                if row['account_id'] == self.account_id:
+                    self.balance_savings = float(row['balance_savings']) 
+                    self.balance_savings += amount 
+                    row['balance_savings'] = str(self.balance_savings)  
+                rows.append(row)
+        with open('bank.csv', 'w', newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)   
     
-    def withdraw(self, amount):
-        if self.balance_savings >= amount:
-            self.balance_savings -= amount
-        else:
-            return "can't withdraw"
+    def withdraw(self, amount,account_id):
+        self.account_id=account_id
+        rows = []
+        with open('bank.csv', 'r') as file:
+         reader = csv.DictReader(file)
+         for row in reader:
+            if row['account_id'] == self.account_id:
+                self.balance_savings = float(row['balance_savings'])
+                if self.balance_savings >= amount:
+                    self.balance_savings -= amount
+                    row['balance_savings'] = str(self.balance_savings)
+                else:
+                    print("can't withdrawal")
+                    return
+            rows.append(row)
+        with open('bank.csv', 'w', newline='') as file:
+         writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+         writer.writeheader()
+         writer.writerows(rows)
     
     def transfer(self, amount, to_this_account):
         pass
 
 # CHECKING CLASS CONTAIN DEPOSIT, WITHDRAW, TRANSFER
 class checkingAccount :
-    def __init__(self, account_id, first_name, last_name, password,account_type, balance_checking=0):
+    def __init__(self):
+         self.fieldnames = ['account_id', 'first_name', 'last_name', 'password','account_type', 'balance_checking', 'balance_savings']
+    
+    def deposit(self, amount, account_id):
         self.account_id = account_id
-        self.first_name = first_name
-        self.last_name = last_name
-        self.password = password
-        self.account_type=account_type
-        self.balance_checking = float(balance_checking)
-    
-    def deposit(self, amount):
-        self.balance_checking += amount
-    
-    def withdraw(self, amount):
-        if self.balance_checking >= amount:
-            self.balance_checking -= amount
-        else:
-            return "can't withdraw"
+        
+        rows = []
+        with open('bank.csv', 'r') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                if row['account_id'] == self.account_id:
+                    self.balance_checking = float(row['balance_checking']) 
+                    self.balance_checking += amount 
+                    row['balance_checking'] = str(self.balance_checking)  
+                rows.append(row)
+        with open('bank.csv', 'w', newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)
+            
+    def withdraw(self, amount, account_id):
+        self.account_id=account_id
+        rows = []
+        with open('bank.csv', 'r') as file:
+         reader = csv.DictReader(file)
+         for row in reader:
+            if row['account_id'] == self.account_id:
+                self.balance_checking = float(row['balance_checking'])
+                if self.balance_checking >= amount:
+                    self.balance_checking -= amount
+                    row['balance_checking'] = str(self.balance_checking)
+                else:
+                    print("can't withdrawal")
+                    return
+            rows.append(row)
+        with open('bank.csv', 'w', newline='') as file:
+         writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+         writer.writeheader()
+         writer.writerows(rows)
     
     def transfer(self, amount, to_this_account):
         pass
@@ -127,7 +172,7 @@ if __name__ == "__main__":
     
         ob=bank()
         ob2=savingAccount()
-        ob3= checkingAccount()
+        ob3=checkingAccount()
         
         print("________________________________")
         print("")
@@ -183,17 +228,17 @@ if __name__ == "__main__":
                     amount = float(input("Enter amount: "))
                     saving_or_checking = input("Enter 1 to deposit in savings or 2 to deposit in checking : ")
                     if saving_or_checking == "1":
-                        ob2.deposit(amount)
+                        ob2.deposit(amount,account_id)
                     elif saving_or_checking == "2":
-                        ob3.deposit(amount)
+                        ob3.deposit(amount,account_id)
                         
                 elif choice_p3=="2":
                     amount = float(input("Enter amount: "))
                     saving_or_checking = input("Enter 1 to withdraw from savings or 2 to withdraw from checking : ")
                     if saving_or_checking == "1":
-                        ob2.withdraw(amount)
+                        ob2.withdraw(amount,account_id)
                     elif saving_or_checking == "2":
-                        ob3.withdraw(amount)
+                        ob3.withdraw(amount,account_id)
                 
                 elif choice_p3=="3":
                     pass    # not yet
