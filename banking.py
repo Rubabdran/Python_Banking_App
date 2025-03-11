@@ -48,15 +48,17 @@ class bank :
         
     def login(self, account_id, password):
         with open('bank.csv', "r") as file:
-            reader = csv.reader(file)
-            next(reader)  
-            for row in reader:
-                if row[0] == account_id and row[3] == password:
-                    #trying reactivate account without add colounm in csv and separate function 
-                    # if int(row['balance_checking']) < 0 or  int(row['balance_savings'] ) < 0:
-                    #     print ("please withdraw enough money to reactivate your account ")
-                 print("welcome !")
-                 return row
+         reader = csv.DictReader(file)
+         for row in reader:
+            if row['account_id'] == account_id and row['password'] == password:
+                checking_balance = float(row['balance_checking'])
+                savings_balance = float(row['balance_savings'])
+                if checking_balance < 0 or savings_balance < 0:
+                    print("Your account is inactive .")
+                    print("Please deposit enough money to reactivate your account.")
+                else:
+                    print("Welcome!")
+                return row
                     
     def logout(self):
         print("Logged out")
@@ -115,7 +117,7 @@ class savingAccount :
                     if (self.balance_savings - amount) < 0 and (self.balance_savings - amount - 35) > -100:
                         self.balance_savings -= amount
                         row['balance_savings'] = str(self.balance_savings)
-              
+                                             
             rows.append(row)
         with open('bank.csv', 'w', newline='') as file:
          writer = csv.DictWriter(file, fieldnames=self.fieldnames)
