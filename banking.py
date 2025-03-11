@@ -55,7 +55,8 @@ class bank :
                     #trying reactivate account without add colounm in csv and separate function 
                     # if int(row['balance_checking']) < 0 or  int(row['balance_savings'] ) < 0:
                     #     print ("please withdraw enough money to reactivate your account ")
-                    print("welcome !")
+                 print("welcome !")
+                 return row
                     
     def logout(self):
         print("Logged out")
@@ -66,12 +67,12 @@ class bank :
             next(reader)  
             for row in reader:
                 if row[0] == account_id:
-                    print("Account Information:")
-                    print(f"ID: {row['account_id']}")
-                    print(f"Name: {row['first_name']} {row['last_name']}")
-                    print(f"Checking Balance: {row['balance_checking']}")
-                    print(f"Savings Balance: {row['balance_savings']}")
-                    return 
+                 print("Account Information:")
+                 print(f"ID: {row[0]}")
+                 print(f"Name: {row[1]} {row[2]}")
+                 print(f"Checking Balance: {row[5]}")
+                 print(f"Savings Balance: {row[6]}")
+                 return
 
 # SAVING CLASS CONTAIN DEPOSIT, WITHDRAW, TRANSFER
 class savingAccount :
