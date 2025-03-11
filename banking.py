@@ -1,10 +1,10 @@
 import csv
-import os
+import os 
+
 
 #overdraft 
-#link the transaction methods with my csv 
 #build history class 
-#transfer choice in main  
+#transfer function and main  
 
 #------------------------ CSV ----------------------#
 
@@ -176,7 +176,7 @@ if __name__ == "__main__":
         
         print("________________________________")
         print("")
-        print(" WELCOME TO OUR BANKING SYSTEM ")
+        print(" WELCOME TO OUR BANKING SYSTEM "+"\U0001F600")
         print("________________________________")
         
         print("********************************")
@@ -187,7 +187,7 @@ if __name__ == "__main__":
         print("********************************")
 
         
-        choice_p1 = input("Enter choice: ")
+        choice_p1 = input("Enter choice: \U0001F31F ")
         
         if choice_p1 == "1":
             print("********************************")
@@ -198,7 +198,7 @@ if __name__ == "__main__":
             print("*     3. Both                  *")
             print("*                              *")
             print("********************************")
-            choice_p2 = input("Enter choice: ")
+            choice_p2 = input("Enter choice: \U0001F31F ")
             account_type = "savings" if choice_p2 == "1" else "checking" if choice_p2 == "2" else "both"
             
             account_id = input("Enter account ID: ")
@@ -223,7 +223,7 @@ if __name__ == "__main__":
                 print("*                              *")
                 print("********************************")
                 
-                choice_p3 = input("Enter choice: ")
+                choice_p3 = input("Enter choice: \U0001F31F ")
                 if choice_p3 == "1":
                     amount = float(input("Enter amount: "))
                     saving_or_checking = input("Enter 1 to deposit in savings or 2 to deposit in checking : ")
