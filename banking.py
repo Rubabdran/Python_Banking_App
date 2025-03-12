@@ -2,9 +2,9 @@ import csv
 import os 
 
 #-----------to do----------#
-#transfer_from_account_to_another  
-#build history class 
-
+#add another transaction to history
+#add active/anactive coloumn instead of print()
+#unit test
 #------------------------ CSV ----------------------#
 
 def initialize_bank():
@@ -52,7 +52,7 @@ class bank :
             if row['account_id'] == account_id and row['password'] == password:
                 checking_balance = float(row['balance_checking'])
                 savings_balance = float(row['balance_savings'])
-                if checking_balance < 0 or savings_balance < 0: # add reactivate coloumn to insert the state of account 
+                if checking_balance < 0 or savings_balance < 0: # try add reactivate coloumn to insert the state of account 
                     print("Your account is inactive .")
                     print("Please deposit enough money to reactivate your account.")
                 else:
