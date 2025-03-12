@@ -1,10 +1,10 @@
 import csv
 import os 
 
-#-----to do----#
-#reactivate the account when balance>=0
-#transfer function and main  
+#-----------to do----------#
+#transfer_from_account_to_another  
 #build history class 
+
 #------------------------ CSV ----------------------#
 
 def initialize_bank():
@@ -53,7 +53,7 @@ class bank :
             if row['account_id'] == account_id and row['password'] == password:
                 checking_balance = float(row['balance_checking'])
                 savings_balance = float(row['balance_savings'])
-                if checking_balance < 0 or savings_balance < 0:
+                if checking_balance < 0 or savings_balance < 0: # add reactivate coloumn to insert the state of account 
                     print("Your account is inactive .")
                     print("Please deposit enough money to reactivate your account.")
                 else:
@@ -61,7 +61,7 @@ class bank :
                 return row
                     
     def logout(self):
-        print("Logged out")
+        print("Logged out") 
         
     def view_info(self, account_id):
         with open('bank.csv', "r") as file:
@@ -124,9 +124,29 @@ class savingAccount :
          writer.writeheader()
          writer.writerows(rows)
     
-    def transfer(self, amount, to_this_account):
+    def transfer_from_saving_to_checking(self, amount,account_id):
+        self.account_id=account_id
+        rows = []
+        with open('bank.csv', 'r') as file:
+         reader = csv.DictReader(file)
+         for row in reader:
+            if row['account_id'] == self.account_id:
+                self.balance_savings = float(row['balance_savings'])
+                self.balance_checking = float(row['balance_checking'])
+                if self.balance_savings >= amount:
+                    self.balance_savings -= amount
+                    self.balance_checking+=amount
+                    row['balance_savings'] = str(self.balance_savings)
+                    row['balance_checking'] = str(self.balance_checking)                         
+            rows.append(row)
+        with open('bank.csv', 'w', newline='') as file:
+         writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+         writer.writeheader()
+         writer.writerows(rows)
+    
+    def transfer_from_account_to_another(self,amount,from_account,to_account):
         pass
-
+    
 # CHECKING CLASS CONTAIN DEPOSIT, WITHDRAW, TRANSFER
 class checkingAccount :
     def __init__(self):
@@ -175,7 +195,27 @@ class checkingAccount :
          writer.writeheader()
          writer.writerows(rows)
          
-    def transfer(self, amount, to_this_account):
+    def transfer_from_checking_to_saving(self, amount,account_id):
+        self.account_id=account_id
+        rows = []
+        with open('bank.csv', 'r') as file:
+         reader = csv.DictReader(file)
+         for row in reader:
+            if row['account_id'] == self.account_id:
+                self.balance_savings = float(row['balance_savings'])
+                self.balance_checking = float(row['balance_checking'])
+                if self.balance_checking >= amount:
+                    self.balance_checking-=amount
+                    self.balance_savings += amount
+                    row['balance_savings'] = str(self.balance_savings)
+                    row['balance_checking'] = str(self.balance_checking)                         
+            rows.append(row)
+        with open('bank.csv', 'w', newline='') as file:
+         writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+         writer.writeheader()
+         writer.writerows(rows)
+    
+    def transfer_from_account_to_another(self,amount,from_account,to_account):
         pass
     
 #BONUS 
@@ -257,10 +297,25 @@ if __name__ == "__main__":
                         ob3.withdraw(amount,account_id)
                 
                 elif choice_p3=="3":
-                    pass    # not yet
-                    
+                    amount = float(input("Enter amount to transfer: "))
+                    transfer_type = input("Enter 1 to transfer from savings to checking, 2 to transfer from checking to savings, or 3 to transfer to another account: ")
+        
+                    if transfer_type == "1":
+                     ob2.transfer_from_saving_to_checking(amount, account_id)  
+                    elif transfer_type == "2":
+                     ob3.transfer_from_checking_to_saving(amount, account_id)  
+                    elif transfer_type == "3":
+                     from_account=input("Enter your account ID: ")
+                     from_account_type=input("Enter your account type: 1 for saving or 2 for checking ")
+                     to_account = input("Enter the target account ID: ")  
+                     if from_account_type == '1':
+                         ob2.transfer_from_account_to_another(amount,from_account,to_account)
+                     elif from_account_type =='2':
+                         ob3.transfer_from_account_to_another(amount,from_account,to_account)
+                     
                 elif choice_p3 =="4":
                     ob.view_info(account_id)
+                    
                 elif choice_p3 =="5":
                     ob.logout()
                     
