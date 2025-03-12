@@ -145,8 +145,35 @@ class savingAccount :
          writer.writerows(rows)
     
     def transfer_from_account_to_another(self,amount,from_account,to_account):
-        pass
-    
+        self.from_account=from_account
+        self.to_account=to_account
+        rows=[]
+        with open('bank.csv', 'r') as file:
+         reader = csv.DictReader(file)
+         for row in reader:
+            if row['account_id'] == self.from_account:
+                self.balance_savings = float(row['balance_savings'])
+                self.balance_savings -= amount 
+                row['balance_savings'] = str(self.balance_savings)
+            rows.append(row)
+        with open('bank.csv', 'w', newline='') as file:
+         writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+         writer.writeheader()
+         writer.writerows(rows)
+        rows2=[]
+        with open('bank.csv', 'r') as file:
+         reader = csv.DictReader(file)
+         for row in reader:
+            if row['account_id'] == self.to_account:
+                self.balance_checking = float(row['balance_checking'])
+                self.balance_checking += amount 
+                row['balance_checking'] = str(self.balance_checking)
+            rows2.append(row)
+        with open('bank.csv', 'w', newline='') as file:
+         writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+         writer.writeheader()
+         writer.writerows(rows2)   
+        
 # CHECKING CLASS CONTAIN DEPOSIT, WITHDRAW, TRANSFER
 class checkingAccount :
     def __init__(self):
@@ -216,7 +243,34 @@ class checkingAccount :
          writer.writerows(rows)
     
     def transfer_from_account_to_another(self,amount,from_account,to_account):
-        pass
+        self.from_account=from_account
+        self.to_account=to_account
+        rows=[]
+        with open('bank.csv', 'r') as file:
+         reader = csv.DictReader(file)
+         for row in reader:
+            if row['account_id'] == self.from_account:
+                self.balance_checking = float(row['balance_checking'])
+                self.balance_checking -= amount 
+                row['balance_checking'] = str(self.balance_checking)
+            rows.append(row)
+        with open('bank.csv', 'w', newline='') as file:
+         writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+         writer.writeheader()
+         writer.writerows(rows)
+        rows2=[]
+        with open('bank.csv', 'r') as file:
+         reader = csv.DictReader(file)
+         for row in reader:
+            if row['account_id'] == self.to_account:
+                self.balance_checking = float(row['balance_checking'])
+                self.balance_checking += amount 
+                row['balance_checking'] = str(self.balance_checking)
+            rows2.append(row)
+        with open('bank.csv', 'w', newline='') as file:
+         writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+         writer.writeheader()
+         writer.writerows(rows2)
     
 #BONUS 
 class history :
