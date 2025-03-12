@@ -32,7 +32,6 @@ class bank :
     def __init__(self):
         self.fieldnames = ['account_id', 'first_name', 'last_name', 'password','account_type', 'balance_checking', 'balance_savings']
 
-    
     def create_account(self, account_id, first_name, last_name, password, account_type):
         with open('bank.csv', "r") as file:
             reader = csv.reader(file)
@@ -173,6 +172,9 @@ class savingAccount :
          writer = csv.DictWriter(file, fieldnames=self.fieldnames)
          writer.writeheader()
          writer.writerows(rows2)   
+         
+        h = history()
+        h.history_transaction(from_account, to_account, amount, 'transfer')
         
 # CHECKING CLASS CONTAIN DEPOSIT, WITHDRAW, TRANSFER
 class checkingAccount :
@@ -271,10 +273,24 @@ class checkingAccount :
          writer = csv.DictWriter(file, fieldnames=self.fieldnames)
          writer.writeheader()
          writer.writerows(rows2)
+         
+        h = history()
+        h.history_transaction(from_account, to_account, amount, 'transfer')
     
 #BONUS 
 class history :
-    pass # not yet
+    def __init__(self, filename='transaction_history.csv'):
+        self.filename = filename
+        if not os.path.exists(self.filename):
+            with open(self.filename, 'w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow(['from_account', 'to_account', 'amount', 'transaction_type'])
+
+    def history_transaction(self, from_account, to_account, amount, transaction_type):
+        with open(self.filename, 'a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([from_account, to_account, amount, transaction_type])
+
 
 #------------------------ Command Line Interface ----------------------#
 
