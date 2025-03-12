@@ -37,7 +37,7 @@ class bank :
             reader = csv.reader(file)
             for row in reader:
                 if row[0] == account_id:
-                    print("Account ID already exists.")
+                    print("This ID already exists.")
                     return
         
         with open('bank.csv', "a", newline="") as file:
@@ -53,7 +53,7 @@ class bank :
                 checking_balance = float(row['balance_checking'])
                 savings_balance = float(row['balance_savings'])
                 if checking_balance < 0 or savings_balance < 0: # try add reactivate coloumn to insert the state of account 
-                    print("Your account is inactive .")
+                    print("Your account is not active .")
                     print("Please deposit enough money to reactivate your account.")
                 else:
                     print(f"Welcome {row['first_name']} ")

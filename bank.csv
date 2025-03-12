@@ -4,5 +4,6 @@ account_id,first_name,last_name,password,account_type,balance_checking,balance_s
 10003,melvin,gordon,uYWE732g4ga1,both,2000,20000
 10004,stacey,abrams,DEU8_qw3y72,both,2000,20000
 10005,jake,paul,d^dg23g@,both,100000,100000
-1109698322,ruba,alharbi,123321,both,60.0,20.0
+1109698322,ruba,alharbi,123321,both,60.0,320.0
 1000,sara,ali,123321,both,13.0,150.0
+2003,atha,al,123321,savings,0,500.0
