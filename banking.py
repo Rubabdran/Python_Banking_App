@@ -329,8 +329,9 @@ if __name__ == "__main__":
                  account_type = "savings"
             elif choice_p2 == "2":
                  account_type = "checking"
-            else :
-                "both" 
+            elif choice_p2 == "3":
+                account_type = "both"
+
             account_id = input("Enter account ID: ")
             first_name = input("Enter first name: ")
             last_name = input("Enter last name: ")
@@ -377,7 +378,7 @@ if __name__ == "__main__":
                 
                 elif choice_p3=="3":
                     amount = float(input("Enter amount to transfer: "))
-                    transfer_type = input("Enter 1 to transfer from savings to checking, 2 to transfer from checking to savings, or 3 to transfer to another account: ")
+                    transfer_type = input("Enter [1] to transfer from savings to checking, [2] to transfer from checking to savings, or [3] to transfer to another account: ")
         
                     if transfer_type == "1":
                      ob2.transfer_from_saving_to_checking(amount, account_id) 

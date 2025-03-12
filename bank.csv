@@ -7,3 +7,4 @@ account_id,first_name,last_name,password,account_type,balance_checking,balance_s
 1109698322,ruba,alharbi,123321,both,60.0,320.0
 1000,sara,ali,123321,both,13.0,150.0
 2003,atha,al,123321,savings,0,500.0
+00,unit,test,123321,both,500.0,900.0
