@@ -57,7 +57,7 @@ class bank :
                     print("Your account is inactive .")
                     print("Please deposit enough money to reactivate your account.")
                 else:
-                    print("Welcome!")
+                    print(f"Welcome {row['first_name']} ")
                 return row
                     
     def logout(self):
@@ -309,13 +309,18 @@ if __name__ == "__main__":
             print("*                              *")
             print("********************************")
             choice_p2 = input("Enter choice: \U0001F31F ")
-            account_type = "savings" if choice_p2 == "1" else "checking" if choice_p2 == "2" else "both"
-            
+            if choice_p2 == "1":
+                 account_type = "savings"
+            elif choice_p2 == "2":
+                 account_type = "checking"
+            else :
+                "both" 
             account_id = input("Enter account ID: ")
             first_name = input("Enter first name: ")
             last_name = input("Enter last name: ")
             password = input("Enter password: ")
             ob.create_account(account_id, first_name, last_name, password, account_type)
+            print("The operation performed successfully \U0001F44D")
             
         elif choice_p1== "2":
             
@@ -339,33 +344,41 @@ if __name__ == "__main__":
                     saving_or_checking = input("Enter 1 to deposit in savings or 2 to deposit in checking : ")
                     if saving_or_checking == "1":
                         ob2.deposit(amount,account_id)
+                        print("The operation performed successfully \U0001F44D")
                     elif saving_or_checking == "2":
                         ob3.deposit(amount,account_id)
+                        print("The operation performed successfully \U0001F44D")
                         
                 elif choice_p3=="2":
                     amount = float(input("Enter amount: "))
                     saving_or_checking = input("Enter 1 to withdraw from savings or 2 to withdraw from checking : ")
                     if saving_or_checking == "1":
                         ob2.withdraw(amount,account_id)
+                        print("The operation performed successfully \U0001F44D")
                     elif saving_or_checking == "2":
                         ob3.withdraw(amount,account_id)
+                        print("The operation performed successfully \U0001F44D")
                 
                 elif choice_p3=="3":
                     amount = float(input("Enter amount to transfer: "))
                     transfer_type = input("Enter 1 to transfer from savings to checking, 2 to transfer from checking to savings, or 3 to transfer to another account: ")
         
                     if transfer_type == "1":
-                     ob2.transfer_from_saving_to_checking(amount, account_id)  
+                     ob2.transfer_from_saving_to_checking(amount, account_id) 
+                     print("The operation performed successfully \U0001F44D") 
                     elif transfer_type == "2":
                      ob3.transfer_from_checking_to_saving(amount, account_id)  
+                     print("The operation performed successfully \U0001F44D")
                     elif transfer_type == "3":
                      from_account=input("Enter your account ID: ")
                      from_account_type=input("Enter your account type: 1 for saving or 2 for checking ")
                      to_account = input("Enter the target account ID: ")  
                      if from_account_type == '1':
                          ob2.transfer_from_account_to_another(amount,from_account,to_account)
+                         print("The operation performed successfully \U0001F44D")
                      elif from_account_type =='2':
                          ob3.transfer_from_account_to_another(amount,from_account,to_account)
+                         print("The operation performed successfully \U0001F44D")
                      
                 elif choice_p3 =="4":
                     ob.view_info(account_id)
