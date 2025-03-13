@@ -1,4 +1,4 @@
-account_id,first_name,last_name,password,account_type,balance_checking,balance_savings
+account_id,first_name,last_name,password,account_type,balance_checking,balance_savings, overdraft_count
 10001,suresh,sigera,juagw362,both,1000,10000
 10002,james,taylor,idh36%@,both,1000,10000
 10003,melvin,gordon,uYWE732g4ga1,both,2000,20000

@@ -2,9 +2,9 @@ import csv
 import os 
 
 #-----------to do----------#
-#add another transaction to history
-#add active/anactive coloumn instead of print()
-#unit test
+# Add another transaction to history
+# Add active/anactive coloumn instead of print()
+# 405 Line !!!
 #------------------------ CSV ----------------------#
 
 def initialize_bank():
@@ -52,7 +52,7 @@ class bank :
             if row['account_id'] == account_id and row['password'] == password:
                 checking_balance = float(row['balance_checking'])
                 savings_balance = float(row['balance_savings'])
-                if checking_balance < 0 or savings_balance < 0: # try add reactivate coloumn to insert the state of account 
+                if checking_balance < -100 or savings_balance < -100: # try add reactivate coloumn to insert the state of account 
                     print("Your account is not active .")
                     print("Please deposit enough money to reactivate your account.")
                 else:
@@ -116,6 +116,8 @@ class savingAccount :
                     if (self.balance_savings - amount) < 0 and (self.balance_savings - amount - 35) > -100:
                         self.balance_savings -= amount
                         row['balance_savings'] = str(self.balance_savings)
+                    else:
+                        print("The overdraft fee + withdraw amount would result in a balance of less than -100, please lower tha amount")
                                              
             rows.append(row)
         with open('bank.csv', 'w', newline='') as file:
@@ -217,7 +219,9 @@ class checkingAccount :
                     if (self.balance_checking - amount) < 0 and (self.balance_checking - amount - 35) > -100:
                         self.balance_checking -= amount
                         row['balance_checking'] = str(self.balance_checking)
-              
+                    else:
+                        print("The overdraft fee + withdraw amount would result in a balance of less than -100, please lower tha amount")
+                    
             rows.append(row)
         with open('bank.csv', 'w', newline='') as file:
          writer = csv.DictWriter(file, fieldnames=self.fieldnames)
@@ -296,9 +300,10 @@ class history :
 
 if __name__ == "__main__":
     
-        ob=bank()
-        ob2=savingAccount()
-        ob3=checkingAccount()
+        bank_instance=bank()
+        #name semantically, this would made sense to be bank_instance
+        saving_instance=savingAccount()
+        checking_instance=checkingAccount()
         
         print("________________________________")
         print("")
@@ -336,14 +341,14 @@ if __name__ == "__main__":
             first_name = input("Enter first name: ")
             last_name = input("Enter last name: ")
             password = input("Enter password: ")
-            ob.create_account(account_id, first_name, last_name, password, account_type)
+            bank_instance.create_account(account_id, first_name, last_name, password, account_type)
             print("The operation performed successfully \U0001F44D")
             
         elif choice_p1== "2":
             
             account_id = input("Enter account ID: ")
             password = input("Enter password: ")
-            login = ob.login(account_id, password)
+            login = bank_instance.login(account_id, password)
             if login:
                 print("********************************")
                 print("*                              *")
@@ -360,20 +365,20 @@ if __name__ == "__main__":
                     amount = float(input("Enter amount: "))
                     saving_or_checking = input("Enter 1 to deposit in savings or 2 to deposit in checking : ")
                     if saving_or_checking == "1":
-                        ob2.deposit(amount,account_id)
+                        saving_instance.deposit(amount,account_id)
                         print("The operation performed successfully \U0001F44D")
                     elif saving_or_checking == "2":
-                        ob3.deposit(amount,account_id)
+                        checking_instance.deposit(amount,account_id)
                         print("The operation performed successfully \U0001F44D")
                         
                 elif choice_p3=="2":
                     amount = float(input("Enter amount: "))
                     saving_or_checking = input("Enter 1 to withdraw from savings or 2 to withdraw from checking : ")
                     if saving_or_checking == "1":
-                        ob2.withdraw(amount,account_id)
+                        saving_instance.withdraw(amount,account_id)
                         print("The operation performed successfully \U0001F44D")
                     elif saving_or_checking == "2":
-                        ob3.withdraw(amount,account_id)
+                        checking_instance.withdraw(amount,account_id)
                         print("The operation performed successfully \U0001F44D")
                 
                 elif choice_p3=="3":
@@ -381,25 +386,25 @@ if __name__ == "__main__":
                     transfer_type = input("Enter [1] to transfer from savings to checking, [2] to transfer from checking to savings, or [3] to transfer to another account: ")
         
                     if transfer_type == "1":
-                     ob2.transfer_from_saving_to_checking(amount, account_id) 
+                     saving_instance.transfer_from_saving_to_checking(amount, account_id) 
                      print("The operation performed successfully \U0001F44D") 
                     elif transfer_type == "2":
-                     ob3.transfer_from_checking_to_saving(amount, account_id)  
+                     checking_instance.transfer_from_checking_to_saving(amount, account_id)  
                      print("The operation performed successfully \U0001F44D")
                     elif transfer_type == "3":
                      from_account=input("Enter your account ID: ")
                      from_account_type=input("Enter your account type: 1 for saving or 2 for checking ")
                      to_account = input("Enter the target account ID: ")  
                      if from_account_type == '1':
-                         ob2.transfer_from_account_to_another(amount,from_account,to_account)
+                         saving_instance.transfer_from_account_to_another(amount,from_account,to_account)
                          print("The operation performed successfully \U0001F44D")
                      elif from_account_type =='2':
-                         ob3.transfer_from_account_to_another(amount,from_account,to_account)
+                         checking_instance.transfer_from_account_to_another(amount,from_account,to_account)
                          print("The operation performed successfully \U0001F44D")
                      
                 elif choice_p3 =="4":
-                    ob.view_info(account_id)
+                    bank_instance.view_info(account_id)
                     
                 elif choice_p3 =="5":
-                    ob.logout()
+                    bank_instance.logout()
                     
